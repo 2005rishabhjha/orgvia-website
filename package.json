@@ -1,9 +1,12 @@
 {
   "name": "orgvia-marketing-site",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "type": "module",
+  "engines": { "node": ">=20" },
   "scripts": {
-    "build": "node scripts/verify-static.mjs",
-    "check": "node scripts/verify-static.mjs"
+    "build": "node scripts/build.mjs && node scripts/verify-static.mjs",
+    "check": "node scripts/verify-static.mjs",
+    "start": "python3 -m http.server 4173 --directory dist"
   }
 }
