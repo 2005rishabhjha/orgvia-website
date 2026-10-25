@@ -21,6 +21,11 @@ for (const [file, render] of PAGES) {
 cpSync(join(src, 'img'), join(dist, 'assets/img'), { recursive: true });
 cpSync(join(src, 'fonts'), join(dist, 'assets/fonts'), { recursive: true });
 for (const f of ['styles.css', 'app.js']) cpSync(join(src, f), join(dist, 'assets', f));
+// This is intentionally the only browser-visible deployment setting.  It is
+// an API origin, never a credential; production writes still go through the
+// Vercel function, which keeps ENQUIRY_INGEST_KEY server-side.
+const publicApiUrl = (process.env.ORGVIA_PUBLIC_API_URL || '').replace(/\/+$/, '');
+writeFileSync(join(dist, 'assets', 'runtime-config.js'), `window.__ORGVIA_PUBLIC_API_URL__=${JSON.stringify(publicApiUrl)};\n`);
 if (readdirSync(join(src, 'static')).length) cpSync(join(src, 'static'), join(dist, 'assets'), { recursive: true });
 
 const urls = PAGES.filter(([, , path]) => path);

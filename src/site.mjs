@@ -98,6 +98,7 @@ ${body}
 <nav aria-label="Company"><h2>Company</h2><a href="/about/">About OrgVia</a><a href="/contact/">Contact</a><a href="/help/">Help &amp; FAQs</a><a href="${esc(SITE.appUrl)}" rel="noopener">Log in</a></nav>
 <nav aria-label="Legal"><h2>Legal</h2><a href="/privacy/">Privacy Policy</a><a href="/terms/">Terms of Service</a></nav>
 </div><div class="foot-legal"><span>© 2026 OrgVia. All rights reserved.</span><span>Product names and screenshots use demonstration data.</span></div></footer>
+<script src="/assets/runtime-config.js"></script>
 <script src="/assets/app.js" defer></script>
 </body></html>`;
 }
@@ -111,6 +112,9 @@ export const enquiryForm = (id = 'enquiry', { compact = false } = {}) => `
 <div class="field"><label for="${id}-size">Team size</label><select id="${id}-size" name="teamSize" required><option value="">Select</option><option>1–25</option><option>26–100</option><option>101–500</option><option>501–2,000</option><option>2,000+</option></select></div></div>
 ${compact ? '' : `<div class="field"><label for="${id}-phone">Phone <span class="opt">optional</span></label><input id="${id}-phone" name="phone" type="tel" autocomplete="tel" maxlength="40"></div>`}
 <div class="field"><label for="${id}-msg">What would you like to see? <span class="opt">optional</span></label><textarea id="${id}-msg" name="message" rows="${compact ? 3 : 4}" maxlength="2000"></textarea></div>
+<p class="pricing-context" data-pricing-context hidden></p>
+<input type="hidden" name="plan" value=""><input type="hidden" name="billing" value=""><input type="hidden" name="employees" value="">
+<input type="hidden" name="kind" value="${id === 'contact' ? 'contact' : id === 'pricing' ? 'pricing' : 'demo'}">
 <div class="hp" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
 <input type="hidden" name="ts" value="">
 <button class="btn" type="submit"><span class="btn-label">Send request</span></button>

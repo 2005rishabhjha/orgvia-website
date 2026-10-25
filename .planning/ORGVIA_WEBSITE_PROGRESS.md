@@ -8,9 +8,13 @@
 - SEO: unique titles/descriptions, canonical, OG/Twitter PNG, sitemap, robots (api disallowed), JSON-LD (Organization/WebSite/SoftwareApplication/Breadcrumb/FAQPage matching visible FAQ), 404 noindex.
 - Forms: client validation + `api/enquiry.js` (honeypot, timing check, same-origin check, per-instance rate limit, Resend delivery). Success shown only on provider acceptance.
 - Vercel: `vercel.json` outputDirectory `dist`, buildCommand `npm run build`, security + cache headers.
+- Pricing: centralized proposed founding-customer plan data, monthly/annual selector, monthly headcount estimator, responsive comparison table, pricing FAQs, visible indicative-pricing disclaimer and CTA context passed to sales enquiries.
+- Enquiries: local FastAPI route is selected for static local development; production uses the Vercel proxy with a server-only ingest key. Pricing context and enquiry kind are carried to the sales record.
 
 ## Verified
 - `npm run build` passes; axe WCAG 2.x AA clean on all pages at 1440 and 360; no horizontal overflow; CLS 0, LCP ~0.8s local; tab keyboard nav, form error/503/success states.
+- Current pricing update: `npm run build` and JavaScript syntax checks passed. Browser visual testing was not available in this run.
+- Enquiry integration: migrated local SQLite through `f3b6c8d0e5a7`; a fictional Growth/Monthly enquiry returned 201 and persisted with plan, billing, `new` status and `website` source.
 
 ## Blockers / next
 - Set RESEND_API_KEY, ENQUIRY_TO_EMAIL, ENQUIRY_FROM_EMAIL in Vercel (no real delivery verified).

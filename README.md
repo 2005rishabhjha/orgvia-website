@@ -9,8 +9,8 @@ npm start       # serve dist/ at http://localhost:4173
 
 - `src/pages.mjs` page content, `src/site.mjs` layout/SEO/nav, `src/styles.css`, `src/app.js`
 - `src/img` screenshots (from the HRMS demo data) and official logo; `src/fonts` self-hosted Instrument Sans / Instrument Serif (SIL OFL)
-- `api/enquiry.js` Vercel function for demo/contact forms. Needs env vars `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `ENQUIRY_FROM_EMAIL`; without them it returns 503 and the form says the message was not sent.
-- Optional build env: `SITE_URL` (default https://orgvia.rishabh.codes), `APP_URL` (default https://orgvia-app.rishabh.codes).
+- `api/enquiry.js` Vercel function for demo/contact forms. Set server-only `ORGVIA_API_URL` and `ENQUIRY_INGEST_KEY` (the same value as the API's); without both the function returns 503. It returns success only after OrgVia stores the enquiry, which makes it visible in Super Admin > Sales. Optional `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, and `ENQUIRY_FROM_EMAIL` send a best-effort notification after storage; notification failure never changes the saved-lead result.
+- Optional build env: `SITE_URL` (default https://orgvia.rishabh.codes), `APP_URL` (default https://orgvia-app.rishabh.codes), and `ORGVIA_PUBLIC_API_URL` for a direct public FastAPI origin in local/staging static hosting. Do not put `ENQUIRY_INGEST_KEY` in this value or in any browser-visible variable. Local `npm start` defaults to `http://localhost:8000`; deployed Vercel sites should use `/api/enquiry` with server-only `ORGVIA_API_URL` and `ENQUIRY_INGEST_KEY`.
 
 ## Vercel
 Framework preset: Other. Build command `npm run build`, output directory `dist` (set in `vercel.json`). No `public` directory is used.

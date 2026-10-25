@@ -1,4 +1,5 @@
 import { SITE, page, shot, frame, enquiryForm, esc } from './site.mjs';
+import { PRICING } from './pricing.mjs';
 
 const arrow = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const faqHtml = (items, id = 'faq') =>
@@ -213,17 +214,34 @@ ${closing('Describe your problem, we’ll show you the fit.', 'A short demo is e
 }
 
 function pricing() {
-  const body = `${phero('Find the right setup <em>for your team.</em>', 'OrgVia pricing is agreed with each organization. There are no public plans to compare yet.', 'Pricing')}
-<section class="section"><div class="wrap split">
-  <div class="qa"><h2 class="title" style="font-size:clamp(1.8rem,1rem + 2vw,2.6rem)">How the conversation works</h2>
-  <p style="margin-top:1rem">We do not list prices on this site, because the right setup depends on how many people you have and which modules you want enabled. OrgVia switches modules on per organization, so you can begin with the people record and add workflows later.</p>
-  <h3>What shapes the quote</h3><ul><li>Number of employees</li><li>Modules you want enabled (for example attendance, leave, payroll, hiring)</li><li>Onboarding help such as importing existing employee data</li></ul>
-  <h3>What happens next</h3><p>Send a request. We reply to your work email, understand your needs and give you commercial terms in writing.</p>
-  <div class="actions" style="margin-top:1.8rem"><a class="btn" href="/demo/">Book a demo ${arrow}</a><a class="btn btn-line" href="/contact/">Ask about pricing</a></div></div>
-  <div class="aside-box"><h2>Helpful to have ready</h2><ol><li>Approximate headcount</li><li>The HR processes you run today</li><li>Where employee data currently lives</li><li>Whether you need payroll workflows</li></ol></div>
-</div></section>
-${closing('Let’s work out what you need.', 'No obligation. We will tell you honestly if OrgVia is not the right fit.')}`;
-  return page({ path: '/pricing/', title: 'Pricing', description: 'OrgVia pricing is agreed per organization, based on team size and the modules you need. Request pricing or book a demo.', body, crumbs: [['Pricing', '/pricing/']] });
+  const money = (n) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n);
+  const cards = PRICING.plans.map((plan) => `<article class="price-card${plan.recommended ? ' recommended' : ''}" data-plan="${plan.id}">
+    ${plan.recommended ? '<p class="recommend">Recommended for growing teams</p>' : ''}<p class="kicker">${plan.name}</p><h2>${plan.name}</h2><p class="price-desc">${plan.description}</p>
+    <p class="price" data-price>${plan.monthly ? `${money(plan.monthly)}<small>/month</small>` : 'Custom'}</p>
+    <p class="price-sub" data-price-sub>${plan.monthly ? `${money(plan.annual)} billed annually` : 'Tailored to your organization'}</p>
+    <p class="seat-note">${plan.included ? `${plan.included} employees included` : 'Employee limits agreed with you'}</p>
+    ${plan.additional ? `<p class="add-note">${money(plan.additional)} per additional employee / month</p>` : '<p class="add-note">Commercial terms confirmed in your quotation.</p>'}
+    <ul>${plan.features.map((feature) => `<li>${feature}</li>`).join('')}</ul>
+    <a class="btn${plan.recommended ? '' : ' btn-line'}" data-pricing-cta data-plan="${plan.id}" href="${plan.href}?plan=${plan.id}&billing=monthly">${plan.cta} ${arrow}</a>
+  </article>`).join('');
+  const comparison = PRICING.comparison.map(([feature, ...states]) => `<div class="compare-row"><b>${feature}</b>${states.map((state) => `<span class="state ${state === 'Included' ? 'yes' : state === 'Not included' ? 'no' : ''}">${state}</span>`).join('')}</div>`).join('');
+  const faq = [
+    ['How is OrgVia priced?', 'OrgVia has proposed introductory plans for new customers. Final pricing, tax and availability are confirmed during onboarding.'],
+    ['What happens if we add more employees?', 'Starter, Growth and Business plans have a monthly additional-employee rate. The calculator shows a monthly estimate only; annual additional-seat terms are confirmed in your quotation.'],
+    ['Can we change our plan?', 'Talk to the OrgVia team about changes to your commercial setup and enabled modules.'],
+    ['Is annual billing available?', 'Yes. Annual plan prices are shown for Starter, Growth and Business and are billed annually.'],
+    ['Does OrgVia offer a demo?', 'Yes. You can request a tailored product demonstration before making any commercial decision.'],
+    ['Which features are included?', 'The comparison below shows proposed plan entitlements. Payroll availability and other configuration details are confirmed in writing during onboarding.'],
+    ['What happens when our subscription expires?', 'Subscription renewal and expiry terms are confirmed in your commercial agreement.'],
+  ];
+  const body = `${phero('A clearer price for <em>the work ahead.</em>', 'Choose a proposed founding-customer plan, estimate your monthly cost and start with a product conversation—not a checkout.', 'Pricing')}
+<section class="pricing-intro"><div class="wrap"><div class="billing" role="group" aria-label="Billing frequency"><button type="button" class="active" data-billing="monthly" aria-pressed="true">Monthly</button><button type="button" data-billing="annual" aria-pressed="false">Annually</button><span>${PRICING.annualNote}</span></div><p class="price-disclaimer">${PRICING.note}</p></div></section>
+<section class="pricing-section"><div class="wrap"><div class="price-grid">${cards}</div></div></section>
+<section class="section price-estimator"><div class="wrap estimator"><div><p class="kicker">Monthly estimate</p><h2 class="title">Start with your <em>headcount.</em></h2><p class="lede">This is an estimate, not an invoice. Annual additional-seat charges are confirmed in your quotation.</p></div><div class="estimate-panel"><label for="employee-count">Employees</label><input id="employee-count" type="number" min="1" value="10" inputmode="numeric"><label for="estimate-plan">Plan</label><select id="estimate-plan">${PRICING.plans.filter((p) => p.monthly).map((p) => `<option value="${p.id}">${p.name}</option>`).join('')}</select><p class="estimate-total" aria-live="polite"><span>Estimated monthly cost</span><strong id="estimate-total">${money(999)}</strong><small id="estimate-breakdown">10 employees are within the Starter allowance.</small></p><a id="estimate-cta" class="btn" href="/demo/?plan=starter&billing=monthly&employees=10">Book a demo ${arrow}</a></div></div></section>
+<section class="section"><div class="wrap"><p class="kicker">Compare plans</p><h2 class="title" style="margin-top:1rem">What each plan is <em>set up to cover.</em></h2><p class="comparison-note">“Confirmed in quotation” means the feature exists in OrgVia, but its commercial availability is agreed during onboarding.</p><div class="comparison" role="region" aria-label="Plan feature comparison" tabindex="0"><div class="compare-head"><span>Feature</span><span>Starter</span><span>Growth</span><span>Business</span><span>Enterprise</span></div>${comparison}</div></div></section>
+<section class="section" style="padding-top:0"><div class="wrap faq-grid"><div><p class="kicker">Pricing questions</p><h2 class="title" style="margin-top:1rem">The details teams <em>ask first.</em></h2><p class="lede" style="margin-top:1rem">Want to talk through your setup? <a class="link" href="/contact/">Contact us</a>.</p></div>${faqHtml(faq, 'pricing-faq')}</div></section>
+${closing('See the plan in the context of your team.', 'Book a demo and we’ll help you assess the right starting point.')}`;
+  return page({ path: '/pricing/', title: 'OrgVia Pricing | HRMS Software Plans for Growing Businesses', description: 'Explore proposed OrgVia HRMS pricing for growing teams. Compare employee limits, available features and subscription options, then request a personalized demo.', body, crumbs: [['Pricing', '/pricing/']], faq, schemaApp: true });
 }
 
 function about() {
