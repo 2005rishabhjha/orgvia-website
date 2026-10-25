@@ -20,7 +20,7 @@ export const logo = (cls = '') =>
   `<a class="brand ${cls}" href="/" aria-label="OrgVia home"><picture><source srcset="/assets/img/orgvia-logo.webp" type="image/webp"><img src="/assets/img/orgvia-logo.png" alt="OrgVia" width="640" height="191"></picture></a>`;
 
 /** Responsive screenshot with fixed intrinsic size so layout never shifts. */
-export const shot = (name, alt, { w = 1440, h = 900, eager = false, sizes = '(min-width: 1100px) 760px, 100vw' } = {}) =>
+export const shot = (name, alt, { w = 1440, h = 770, eager = false, sizes = '(min-width: 1100px) 760px, 100vw' } = {}) =>
   `<img src="/assets/img/${name}-1440.webp" srcset="/assets/img/${name}-800.webp 800w, /assets/img/${name}-1440.webp 1440w" sizes="${sizes}" width="${w}" height="${h}" alt="${esc(alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'}>`;
 
 export const frame = (inner, label) =>

@@ -26,7 +26,7 @@ function home() {
     <p class="hero-note">Real product screens below, shown with demonstration data.</p>
   </div>
   <div class="hero-shot">
-    ${frame(shot('directory', 'OrgVia people directory listing employees with role, department, reporting manager, status and join date', { eager: true, sizes: '(min-width: 1060px) 58vw, 100vw' }), 'orgvia / people')}
+    ${frame(shot('directory', 'OrgVia people directory with headcount cards, filters and an employee table', { h: 770, eager: true, sizes: '(min-width: 1060px) 58vw, 100vw' }), 'orgvia / people')}
     <div class="hero-chip" aria-hidden="true"><img src="/assets/img/mobile.webp" alt="" width="780" height="800" loading="lazy"></div>
   </div>
 </div>
@@ -39,19 +39,17 @@ function home() {
 
 <section class="section tour" id="tour"><div class="wrap">
   <div class="section-head"><div><p class="kicker" data-reveal>The product</p><h2 class="title" data-reveal style="--d:.05s">See the work <em>itself</em>, not an illustration.</h2></div>
-  <p class="lede" data-reveal style="--d:.1s">These are screens from the OrgVia web app. Pick a view to look at it properly.</p></div>
+  <p class="lede" data-reveal style="--d:.1s">Screens from the OrgVia web app, shown with fictional demo records. Pick a view to look at it properly.</p></div>
   <div class="tour-grid" data-tabs data-reveal>
     <div class="tabs" role="tablist" aria-label="Product views">
       <button class="tab" role="tab" id="t1" aria-controls="p1"><b data-n="01">People directory</b><span>Search and filter by department, role and status. Open any profile from the list.</span></button>
-      <button class="tab" role="tab" id="t2" aria-controls="p2"><b data-n="02">Org chart</b><span>Reporting lines drawn from the same records, so structure never lives in a separate slide.</span></button>
-      <button class="tab" role="tab" id="t3" aria-controls="p3"><b data-n="03">Dashboard</b><span>Headcount, who is active or on leave, and one-tap clock-in for the signed-in employee.</span></button>
-      <button class="tab" role="tab" id="t4" aria-controls="p4"><b data-n="04">CSV import</b><span>Bring an existing employee list in without retyping it.</span></button>
+      <button class="tab" role="tab" id="t2" aria-controls="p2"><b data-n="02">Dashboard</b><span>Headcount, today’s attendance breakdown, pending actions, department overview and clock-in.</span></button>
+      <button class="tab" role="tab" id="t3" aria-controls="p3"><b data-n="03">CSV import</b><span>Bring an existing employee list in without retyping it.</span></button>
     </div>
     <div class="panels">
-      <div class="panel" role="tabpanel" id="p1" aria-labelledby="t1">${frame(shot('directory', 'People directory with search, department, role and status filters', { sizes: '(min-width: 1060px) 62vw, 100vw' }), 'orgvia / people / directory')}<p class="caption">People directory: name, role, department, reporting manager, status and join date in one list.</p></div>
-      <div class="panel" role="tabpanel" id="p2" aria-labelledby="t2">${frame(shot('orgchart', 'Organization chart showing reporting lines between employees', { sizes: '(min-width: 1060px) 62vw, 100vw' }), 'orgvia / people / org chart')}<p class="caption">Org chart generated from each employee’s reporting manager.</p></div>
-      <div class="panel" role="tabpanel" id="p3" aria-labelledby="t3">${frame(shot('dashboard', 'Dashboard with total employees, active, on leave and new hires, plus a clock-in panel', { sizes: '(min-width: 1060px) 62vw, 100vw' }), 'orgvia / dashboard')}<p class="caption">Dashboard with headcount summary and a clock-in panel.</p></div>
-      <div class="panel" role="tabpanel" id="p4" aria-labelledby="t4">${frame(shot('import', 'Import employees from CSV dialog', { sizes: '(min-width: 1060px) 62vw, 100vw' }), 'orgvia / people / import')}<p class="caption">CSV import for adding many employees at once.</p></div>
+      <div class="panel" role="tabpanel" id="p1" aria-labelledby="t1">${frame(shot('directory', 'People directory with headcount cards, search, filters and employee table', { h: 770, sizes: '(min-width: 1060px) 62vw, 100vw' }), 'orgvia / people / directory')}<p class="caption">People directory with headcount summary, filters and a paginated employee table.</p></div>
+      <div class="panel" role="tabpanel" id="p2" aria-labelledby="t2">${frame(shot('dashboard', 'Admin dashboard with headcount, today’s attendance, pending actions, department overview and recent activity', { h: 770, sizes: '(min-width: 1060px) 62vw, 100vw' }), 'orgvia / dashboard')}<p class="caption">Admin dashboard: attendance breakdown, check-in panel, pending actions and recent activity.</p></div>
+      <div class="panel" role="tabpanel" id="p3" aria-labelledby="t3">${frame(shot('import', 'Import employees dialog for uploading a CSV file', { w: 837, h: 523, sizes: '(min-width: 1060px) 62vw, 100vw' }), 'orgvia / people / import')}<p class="caption">CSV import for adding many employees at once.</p></div>
     </div>
   </div>
 </div></section>
@@ -146,7 +144,7 @@ function product() {
     <li><b>Administrators</b>: configure the organization and access.</li></ul>
     <p class="notice" style="margin-top:1.4rem">${ENTITLEMENT}</p></div>
 </div></section>
-<section class="section" style="padding-top:0"><div class="wrap">${frame(shot('orgchart', 'Org chart view in OrgVia', { sizes: '(min-width: 1240px) 1100px, 100vw' }), 'orgvia / people / org chart')}<p class="caption">The org chart is part of the people record, not a separate diagram.</p></div></section>
+<section class="section" style="padding-top:0"><div class="wrap">${frame(shot('dashboard', 'OrgVia admin dashboard', { h: 770, sizes: '(min-width: 1240px) 1100px, 100vw' }), 'orgvia / dashboard')}<p class="caption">The admin dashboard summarises headcount, attendance and pending work.</p></div></section>
 <section class="section" style="padding-top:0"><div class="wrap"><div class="cols3">
   <div data-reveal><h3>Start with people</h3><p>Add employees individually or import from CSV, then assign departments, roles and reporting managers.</p></div>
   <div data-reveal style="--d:.06s"><h3>Add workflows</h3><p>Turn on attendance, leave, payroll, hiring, onboarding, performance and compliance as your organization needs them.</p></div>
