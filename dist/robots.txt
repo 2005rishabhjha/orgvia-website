@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://orgvia.rishabh.codes/sitemap.xml
